@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='16' fill='%2308080a'/><circle cx='16' cy='16' r='14' fill='%23111114' stroke='%23ff3b1d' stroke-width='2'/><text x='16' y='21' font-family='Arial,sans-serif' font-size='12' font-weight='900' text-anchor='middle' fill='%23f3f1ea'>SI</text></svg>">
 
   <style>
     /* ── 1. CSS Reset & Base Standards ────────────────────────── */
@@ -2486,6 +2487,192 @@
       border-color: var(--line-strong);
       color: var(--accent);
     }
+
+    /* ── 23. Mobile & Tablet Refinements (iPhone, Pixel, Galaxy, iPad Air & Mini) ── */
+
+    /* Tier badge two-line layout */
+    .tier-badge-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex-shrink: 0;
+    }
+    .tier-badge-sub {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--foreground);
+    }
+
+    /* All Screens under 1100px (iPad Air, iPad Mini, iPhone, Pixel, Galaxy) */
+    @media (max-width: 1099px) {
+      .site-nav {
+        position: fixed !important;
+        inset-inline: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 1.65rem var(--gutter) 1.25rem !important;
+        background: rgba(8, 8, 10, 0.88) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        z-index: 50 !important;
+      }
+      .desktop-nav {
+        display: none !important;
+      }
+      .nav-logo {
+        flex: 0 0 auto !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        z-index: 61 !important;
+      }
+      .brand-title {
+        display: none !important;
+      }
+      .nav-cv-btn {
+        position: absolute !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        flex: 0 0 auto !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 0.6875rem !important;
+        letter-spacing: 0.08em !important;
+        padding: 0.42rem 0.95rem !important;
+        border-radius: 9999px !important;
+        white-space: nowrap !important;
+        z-index: 61 !important;
+      }
+      .burger-btn {
+        flex: 0 0 auto !important;
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+        margin-left: auto !important;
+        background: transparent !important;
+        border: none !important;
+        cursor: pointer !important;
+        z-index: 62 !important;
+      }
+      .burger-bar {
+        display: block !important;
+        width: 1.5rem !important;
+        height: 0.125rem !important;
+        background: var(--foreground) !important;
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .desktop-nav {
+        display: block !important;
+        margin: 0 auto !important;
+      }
+      .nav-cv-btn {
+        margin-left: 0 !important;
+      }
+      .burger-btn {
+        display: none !important;
+      }
+    }
+
+    /* Mobile Phones (max-width: 640px) */
+    @media (max-width: 640px) {
+      /* Hero Title & Shakil Ilhan Display Size */
+      .hero-name-title {
+        font-size: 34vw !important;
+        top: 42% !important;
+        letter-spacing: -0.02em !important;
+      }
+
+      /* Brand Ambassadorship Cards Intact */
+      .brand-ca-card {
+        padding: 1.5rem 1.25rem !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+      }
+      .brand-ca-top {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.5rem !important;
+      }
+      .brand-ca-name {
+        font-size: 1.35rem !important;
+        word-break: break-word !important;
+      }
+      .ca-date-pill {
+        align-self: flex-start !important;
+        font-size: 0.6875rem !important;
+      }
+
+      /* Certifications Section Heading (Reduce by 1, prevent 's' cutoff) */
+      #certifications .section-main-heading {
+        font-size: 2.25rem !important;
+        line-height: 1.05 !important;
+        overflow: visible !important;
+      }
+      #certifications .reveal-line-wrap {
+        overflow: visible !important;
+      }
+
+      /* Contact Section & Direct Communication Hub Box */
+      .contact-heading {
+        font-size: 2.35rem !important;
+      }
+      .contact-lead {
+        font-size: 0.9375rem !important;
+        line-height: 1.6 !important;
+        max-width: 100% !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+      }
+      .inquiry-card {
+        padding: 1.5rem 1.15rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+      }
+      .direct-item {
+        padding: 0.85rem 0.95rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .direct-item span {
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        font-size: 0.78125rem !important;
+      }
+      .email-link {
+        font-size: 1.45rem !important;
+      }
+    }
+
+    /* Tablets (641px to 1024px: iPad Air & iPad Mini) */
+    @media (min-width: 641px) and (max-width: 1024px) {
+      .hero-name-title {
+        font-size: 24vw !important;
+        top: 46% !important;
+      }
+      #certifications .section-main-heading {
+        font-size: 2.85rem !important;
+      }
+      .inquiry-card {
+        padding: 2rem 1.75rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+    }
   </style>
 
   <!-- Importmap: Only Lenis Smooth Scroll runtime is required -->
@@ -2532,7 +2719,7 @@
     </a>
 
     <!-- Desktop Navigation Links -->
-    <nav aria-label="Main Navigation">
+    <nav aria-label="Main Navigation" class="desktop-nav">
       <ul class="nav-links">
         <li><a href="#about" class="nav-item-link">About</a></li>
         <li><a href="#education" class="nav-item-link">Education</a></li>
@@ -2548,15 +2735,13 @@
       </ul>
     </nav>
 
-    <!-- Nav Action & Mobile Toggle -->
-    <div class="nav-actions">
-      <a href="my%20info/ShakilIlhan_KUET_CV.pdf" download class="nav-cv-btn">Download CV ↓</a>
-      <button class="burger-btn" id="burger-btn" aria-label="Open navigation menu" aria-expanded="false">
-        <span class="burger-bar"></span>
-        <span class="burger-bar"></span>
-        <span class="burger-bar"></span>
-      </button>
-    </div>
+    <!-- Centered Action & Right Mobile Toggle -->
+    <a href="my%20info/ShakilIlhan_KUET_CV.pdf" download class="nav-cv-btn">Download CV ↓</a>
+    <button class="burger-btn" id="burger-btn" aria-label="Open navigation menu" aria-expanded="false">
+      <span class="burger-bar"></span>
+      <span class="burger-bar"></span>
+      <span class="burger-bar"></span>
+    </button>
   </header>
 
   <!-- Mobile Drawer Menu -->
@@ -3479,7 +3664,10 @@
         <!-- Level 1: University Level (KUET) -->
         <div class="club-tier-block reveal-fade-up">
           <div class="tier-header">
-            <span class="tier-badge">University Level · KUET</span>
+            <div class="tier-badge-group">
+              <span class="tier-badge">University Level</span>
+              <span class="tier-badge-sub">Khulna University of Engineering & Technology</span>
+            </div>
             <span class="tier-line"></span>
           </div>
           <div class="tier-grid">
@@ -3528,7 +3716,10 @@
         <!-- Level 2: College Level (Dhaka Imperial College) -->
         <div class="club-tier-block reveal-fade-up">
           <div class="tier-header">
-            <span class="tier-badge">College Level · Dhaka Imperial College</span>
+            <div class="tier-badge-group">
+              <span class="tier-badge">College Level</span>
+              <span class="tier-badge-sub">Dhaka Imperial College</span>
+            </div>
             <span class="tier-line"></span>
           </div>
           <div class="tier-grid">
@@ -3563,7 +3754,10 @@
         <!-- Level 3: School Level (Ideal School and College) -->
         <div class="club-tier-block reveal-fade-up">
           <div class="tier-header">
-            <span class="tier-badge">School Level · Ideal School and College</span>
+            <div class="tier-badge-group">
+              <span class="tier-badge">School Level</span>
+              <span class="tier-badge-sub">Ideal School and College</span>
+            </div>
             <span class="tier-line"></span>
           </div>
           <div class="tier-grid">
@@ -4180,7 +4374,7 @@
             <span class="reveal-line-wrap"><span class="reveal-line">something durable?</span></span>
           </h2>
           <p class="contact-lead reveal-fade-up">
-            Whether you have an engineering challenge, an ambitious campus initiative, or an organizational project to execute<br>I'm always ready to collaborate.
+            Whether you have an engineering challenge, an ambitious campus initiative, or an organizational project to execute &mdash; I'm always ready to collaborate.
           </p>
 
           <div class="email-link-wrap reveal-fade-up" data-delay="120">
@@ -4609,8 +4803,9 @@
     const preloaderNum = document.getElementById("preloader-num");
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isSimMode = new URLSearchParams(window.location.search).get("sim") === "1";
 
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || isSimMode) {
       preloaderEl.style.display = "none";
       lenis.start();
       triggerHeroEntrance();
@@ -4660,7 +4855,7 @@
     /* ── E. Infinite Marquee Continuous RAF Engine ─────────────── */
     const marqueeTrack = document.querySelector(".marquee-track");
     let marqueeOffset = 0;
-    const marqueeSpeed = 0.85; // px per frame
+    const marqueeSpeed = 1.35; // 1.5x faster // px per frame
 
     function loopMarquee() {
       marqueeOffset -= marqueeSpeed;
@@ -5010,7 +5205,7 @@
 
       function animateClubMarquee() {
         if (!clubMarqueePaused) {
-          clubMarqueePos -= 0.65;
+          clubMarqueePos -= 1.0; // 1.5x faster
           const halfWidth = clubMarqueeTrack.scrollWidth / 2;
           if (Math.abs(clubMarqueePos) >= halfWidth) {
             clubMarqueePos = 0;
@@ -5033,7 +5228,7 @@
 
       function animatePartnersMarquee() {
         if (!pMarqueePaused) {
-          pMarqueePos -= 0.6;
+          pMarqueePos -= 0.95; // 1.5x faster
           const halfWidth = partnersMarqueeTrack.scrollWidth / 2;
           if (Math.abs(pMarqueePos) >= halfWidth) {
             pMarqueePos = 0;

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shakil Ilhan — Multi-Device Mobile & Tablet Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090c;
+      --surface: #121217;
+      --surface-2: #1a1a22;
+      --surface-border: rgba(255, 255, 255, 0.08);
+      --accent: #ff3b1d;
+      --accent-hover: #ff5733;
+      --text: #f4f4f6;
+      --text-muted: #888894;
+      --device-bezel: #1e1e24;
+      --device-border: #2c2c34;
+      --font-ui: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Top Header Toolbar ── */
+    header.sim-header {
+      background: rgba(18, 18, 23, 0.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--surface-border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .sim-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .sim-logo-badge {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: var(--surface-2);
+      border: 1px solid var(--surface-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+    .sim-title-group h1 {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .sim-title-group p {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* Device Tabs */
+    .device-tabs {
+      display: flex;
+      background: var(--surface-2);
+      padding: 0.25rem;
+      border-radius: 10px;
+      border: 1px solid var(--surface-border);
+      gap: 0.25rem;
+    }
+    .device-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.4rem 0.85rem;
+      border-radius: 7px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+      font-family: var(--font-ui);
+    }
+    .device-tab:hover {
+      color: var(--text);
+    }
+    .device-tab.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(255, 59, 29, 0.35);
+    }
+
+    /* Action Controls */
+    .sim-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .action-btn {
+      background: var(--surface-2);
+      border: 1px solid var(--surface-border);
+      color: var(--text);
+      padding: 0.4rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      font-family: var(--font-ui);
+    }
+    .action-btn:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .scale-select {
+      background: var(--surface-2);
+      border: 1px solid var(--surface-border);
+      color: var(--text);
+      padding: 0.38rem 0.65rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      outline: none;
+    }
+
+    /* Quick Jump Nav Ribbon */
+    .quick-jump-ribbon {
+      background: var(--surface);
+      border-bottom: 1px solid var(--surface-border);
+      padding: 0.4rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .quick-jump-ribbon::-webkit-scrollbar {
+      display: none;
+    }
+    .quick-jump-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      white-space: nowrap;
+      margin-right: 0.25rem;
+    }
+    .jump-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--surface-border);
+      color: var(--text-muted);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .jump-chip:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .jump-chip.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(255, 59, 29, 0.1);
+    }
+
+    /* ── Main Simulator Stage ── */
+    main.sim-stage {
+      flex: 1;
+      padding: 2.5rem 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      background: radial-gradient(circle at 50% 20%, rgba(255, 59, 29, 0.04) 0%, transparent 60%);
+    }
+
+    /* Device Specs Bar */
+    .device-meta-bar {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .meta-tag {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+    }
+    .meta-badge {
+      background: var(--surface-2);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid var(--surface-border);
+      color: var(--text);
+    }
+
+    /* ── Realistic Device Frame Container ── */
+    .device-scaler {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: top center;
+    }
+
+    .device-chassis {
+      position: relative;
+      background: var(--device-bezel);
+      border: 4px solid var(--device-border);
+      box-shadow: 
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 25px 70px -10px rgba(0, 0, 0, 0.9),
+        0 10px 30px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.3s ease;
+    }
+
+    /* Realistic Speaker & Camera / Island */
+    .device-notch-island {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 105px;
+      height: 28px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      pointer-events: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+    .island-camera {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #0d0f17;
+      border: 1px solid #1a2233;
+      margin-left: auto;
+    }
+    .island-sensor {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #090a10;
+      margin-left: 6px;
+    }
+
+    /* Status Bar Overlay */
+    .status-bar-sim {
+      height: 44px;
+      width: 100%;
+      background: rgba(8, 8, 10, 0.85);
+      backdrop-filter: blur(8px);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 400;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fff;
+      pointer-events: none;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .status-left {
+      letter-spacing: -0.02em;
+    }
+    .status-right {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.7rem;
+    }
+
+    /* Bottom Home Indicator */
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 5px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.65);
+      z-index: 500;
+      pointer-events: none;
+    }
+
+    /* Active Iframe */
+    .viewport-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #08080a;
+      display: block;
+    }
+
+    /* Comparison Multi-Grid Mode */
+    .comparison-grid {
+      display: none;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 2.5rem;
+      width: 100%;
+      max-width: 1600px;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .comparison-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .comparison-label {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .comparison-label span {
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: normal;
+    }
+
+    /* Responsive Simulator UI */
+    @media (max-width: 768px) {
+      header.sim-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .device-tabs {
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Toolbar -->
+  <header class="sim-header">
+    <div class="sim-brand">
+      <div class="sim-logo-badge">SI</div>
+      <div class="sim-title-group">
+        <h1>Multi-Device Responsive Studio</h1>
+        <p>Live Viewport & Cutout Inspector • Shakil Ilhan Portfolio</p>
+      </div>
+    </div>
+
+    <!-- Device Selection Tabs -->
+    <div class="device-tabs" role="tablist">
+      <button class="device-tab active" data-device="iphone15" onclick="setDevice('iphone15')">
+        <span>📱</span> iPhone 15 Pro
+      </button>
+      <button class="device-tab" data-device="pixel8" onclick="setDevice('pixel8')">
+        <span>📱</span> Google Pixel 8
+      </button>
+      <button class="device-tab" data-device="galaxy" onclick="setDevice('galaxy')">
+        <span>📱</span> Samsung Galaxy
+      </button>
+      <button class="device-tab" data-device="ipadir" onclick="setDevice('ipadir')">
+        <span>📟</span> iPad Air (Tab)
+      </button>
+      <button class="device-tab" data-device="ipadmini" onclick="setDevice('ipadmini')">
+        <span>📟</span> iPad Mini (Tab)
+      </button>
+      <button class="device-tab" data-device="compare" onclick="setDevice('compare')">
+        <span>⚡</span> Side-by-Side
+      </button>
+    </div>
+
+    <!-- Actions & Zoom Tools -->
+    <div class="sim-actions">
+      <button class="action-btn" onclick="toggleOrientation()" title="Rotate Device">
+        <span id="rotate-icon">🔄</span> <span id="orientation-label">Portrait</span>
+      </button>
+      
+      <select class="scale-select" id="scale-select" onchange="changeScale(this.value)" aria-label="Scale Viewport">
+        <option value="1">100% Zoom</option>
+        <option value="0.9">90% Zoom</option>
+        <option value="0.8" selected>80% Zoom</option>
+        <option value="0.7">70% Zoom</option>
+        <option value="0.6">60% Zoom</option>
+      </select>
+
+      <button class="action-btn" onclick="reloadFrame()" title="Reload Frame">
+        <span>↻</span> Reload
+      </button>
+
+      <a href="./index.html" target="_blank" class="action-btn" style="text-decoration:none;" title="Open directly in full tab">
+        <span>↗</span> Full Tab
+      </a>
+    </div>
+  </header>
+
+  <!-- Quick Jump Section Navigation -->
+  <nav class="quick-jump-ribbon" aria-label="Quick Jump to Sections">
+    <span class="quick-jump-label">Jump to Section:</span>
+    <button class="jump-chip active" onclick="jumpTo('#top')">Top Hero</button>
+    <button class="jump-chip" onclick="jumpTo('#about')">About Me</button>
+    <button class="jump-chip" onclick="jumpTo('#education')">Education</button>
+    <button class="jump-chip" onclick="jumpTo('#initiatives')">Initiatives</button>
+    <button class="jump-chip" onclick="jumpTo('#brands')">Brand CA</button>
+    <button class="jump-chip" onclick="jumpTo('#partners')">Corporate Partners</button>
+    <button class="jump-chip" onclick="jumpTo('#club-programs')">Competitions</button>
+    <button class="jump-chip" onclick="jumpTo('#clubs')">Student Clubs</button>
+    <button class="jump-chip" onclick="jumpTo('#certifications')">Certifications</button>
+    <button class="jump-chip" onclick="jumpTo('#projects')">Projects</button>
+    <button class="jump-chip" onclick="jumpTo('#skills')">Skills</button>
+    <button class="jump-chip" onclick="jumpTo('#contact')">Contact &amp; Hub</button>
+  </nav>
+
+  <!-- Main Simulator Stage -->
+  <main class="sim-stage">
+    
+    <!-- Device Metadata -->
+    <div class="device-meta-bar" id="meta-bar">
+      <div class="meta-tag">
+        <span class="meta-dot"></span>
+        <span id="device-name-text">Apple iPhone 15 Pro</span>
+      </div>
+      <div class="meta-badge" id="device-dim-text">393 × 852 px (19.5:9)</div>
+      <div class="meta-badge" id="device-scale-text">Scale: 80%</div>
+      <div class="meta-badge" id="device-ua-text">Mobile Viewport</div>
+    </div>
+
+    <!-- Single Focused Device Container -->
+    <div class="device-scaler" id="scaler" style="transform: scale(0.8);">
+      <div class="device-chassis" id="chassis" style="width: 393px; height: 852px; border-radius: 50px;">
+        
+        <!-- Dynamic Island / Notch -->
+        <div class="device-notch-island" id="island">
+          <div class="island-sensor"></div>
+          <div class="island-camera"></div>
+        </div>
+
+        <!-- Iframe displaying index.html -->
+        <iframe src="./index.html?sim=1" id="viewport-frame" class="viewport-iframe" title="Mobile Simulation View"></iframe>
+
+        <!-- iOS Home Indicator -->
+        <div class="home-indicator" id="home-indicator"></div>
+      </div>
+    </div>
+
+    <!-- Comparison Grid Mode -->
+    <div class="comparison-grid" id="comparison-grid">
+      <!-- 1: iPhone -->
+      <div class="comparison-item">
+        <div class="comparison-label">iPhone 15 Pro <span>(393 × 852)</span></div>
+        <div style="transform: scale(0.68); transform-origin: top center;">
+          <div class="device-chassis" style="width: 393px; height: 852px; border-radius: 48px;">
+            <div class="device-notch-island">
+              <div class="island-sensor"></div>
+              <div class="island-camera"></div>
+            </div>
+            <iframe src="./index.html?sim=1" class="viewport-iframe" title="iPhone View"></iframe>
+            <div class="home-indicator"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2: Android (Pixel 8) -->
+      <div class="comparison-item">
+        <div class="comparison-label">Google Pixel 8 <span>(412 × 915)</span></div>
+        <div style="transform: scale(0.68); transform-origin: top center;">
+          <div class="device-chassis" style="width: 412px; height: 915px; border-radius: 36px;">
+            <div style="position:absolute; top:12px; left:50%; transform:translateX(-50%); width:12px; height:12px; border-radius:50%; background:#000; z-index:500;"></div>
+            <iframe src="./index.html?sim=1" class="viewport-iframe" title="Pixel 8 View"></iframe>
+            <div class="home-indicator" style="width: 100px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3: iPad / Tablet -->
+      <div class="comparison-item">
+        <div class="comparison-label">iPad Air (Tablet) <span>(820 × 1180)</span></div>
+        <div style="transform: scale(0.52); transform-origin: top center;">
+          <div class="device-chassis" style="width: 820px; height: 1180px; border-radius: 28px;">
+            <iframe src="./index.html?sim=1" class="viewport-iframe" title="iPad View"></iframe>
+            <div class="home-indicator" style="width: 180px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const devices = {
+      iphone15: {
+        name: "Apple iPhone 15 Pro",
+        w: 393,
+        h: 852,
+        radius: 50,
+        island: true,
+        type: "Mobile Viewport"
+      },
+      pixel8: {
+        name: "Google Pixel 8",
+        w: 412,
+        h: 915,
+        radius: 38,
+        island: false,
+        type: "Android Viewport"
+      },
+      galaxy: {
+        name: "Samsung Galaxy S23",
+        w: 360,
+        h: 780,
+        radius: 34,
+        island: false,
+        type: "Android Compact"
+      },
+      ipadir: {
+        name: "Apple iPad Air (Tablet)",
+        w: 820,
+        h: 1180,
+        radius: 26,
+        island: false,
+        type: "Tablet Viewport"
+      },
+      ipadmini: {
+        name: "Apple iPad Mini (Tablet)",
+        w: 768,
+        h: 1024,
+        radius: 24,
+        island: false,
+        type: "Tablet Compact"
+      }
+    };
+
+    let currentDeviceKey = "iphone15";
+    let isLandscape = false;
+    let currentScale = 0.8;
+
+    function setDevice(key) {
+      document.querySelectorAll(".device-tab").forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.device === key);
+      });
+
+      const singleScaler = document.getElementById("scaler");
+      const compareGrid = document.getElementById("comparison-grid");
+      const metaBar = document.getElementById("meta-bar");
+
+      if (key === "compare") {
+        singleScaler.style.display = "none";
+        metaBar.style.display = "none";
+        compareGrid.style.display = "grid";
+        return;
+      }
+
+      singleScaler.style.display = "block";
+      metaBar.style.display = "flex";
+      compareGrid.style.display = "none";
+
+      currentDeviceKey = key;
+      applyDeviceSpecs();
+    }
+
+    function applyDeviceSpecs() {
+      const dev = devices[currentDeviceKey];
+      if (!dev) return;
+
+      const chassis = document.getElementById("chassis");
+      const island = document.getElementById("island");
+      const nameText = document.getElementById("device-name-text");
+      const dimText = document.getElementById("device-dim-text");
+      const uaText = document.getElementById("device-ua-text");
+
+      const width = isLandscape ? dev.h : dev.w;
+      const height = isLandscape ? dev.w : dev.h;
+
+      chassis.style.width = width + "px";
+      chassis.style.height = height + "px";
+      chassis.style.borderRadius = dev.radius + "px";
+
+      if (dev.island && !isLandscape) {
+        island.style.display = "flex";
+      } else {
+        island.style.display = "none";
+      }
+
+      nameText.textContent = dev.name + (isLandscape ? " (Landscape)" : "");
+      dimText.textContent = `${width} × ${height} px`;
+      uaText.textContent = dev.type;
+    }
+
+    function toggleOrientation() {
+      isLandscape = !isLandscape;
+      document.getElementById("orientation-label").textContent = isLandscape ? "Landscape" : "Portrait";
+      document.getElementById("rotate-icon").textContent = isLandscape ? "↔️" : "🔄";
+      applyDeviceSpecs();
+    }
+
+    function changeScale(scaleVal) {
+      currentScale = parseFloat(scaleVal);
+      document.getElementById("scaler").style.transform = `scale(${currentScale})`;
+      document.getElementById("device-scale-text").textContent = `Scale: ${Math.round(currentScale * 100)}%`;
+    }
+
+    function reloadFrame() {
+      const frame = document.getElementById("viewport-frame");
+      frame.src = frame.src;
+    }
+
+    function jumpTo(hash) {
+      document.querySelectorAll(".jump-chip").forEach(chip => {
+        chip.classList.toggle("active", chip.getAttribute("onclick").includes(hash));
+      });
+
+      const frame = document.getElementById("viewport-frame");
+      if (frame && frame.contentWindow) {
+        try {
+          const targetEl = frame.contentDocument.querySelector(hash);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: "smooth" });
+          } else {
+            frame.contentWindow.location.hash = hash;
+          }
+        } catch(e) {
+          frame.src = "./index.html?sim=1" + hash;
+        }
+      }
+    }
+  </script>
+</body>
+</html>

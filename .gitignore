@@ -1,0 +1,15 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Temporary / Debug Files
+debug_*.png
+
+# AI Agent Heavy Skill Repositories (Not needed for website hosting)
+AI_AGENT_SKILLS/
+.claude/imported-skills/
+
+# Private Personal ID Documents (Protect from public GitHub)
+my info/**/nid*
+my info/**/*BIRTH*
+my info/**/CERTIFIcate/

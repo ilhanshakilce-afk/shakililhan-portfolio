@@ -2,7 +2,7 @@
 
 > **Live Website:** [https://shakililhan.vercel.app/](https://shakililhan.vercel.app/)  
 > **Institution:** Department of Civil Engineering, Khulna University of Engineering & Technology (KUET)  
-> **Contact:** [ilhan.shakilce@gmail.com](mailto:ilhan.shakilce@gmail.com) · [LinkedIn](https://linkedin.com/in/shakil-ilhan) · [Facebook](https://facebook.com/shakil.ilhan.566) · [Instagram](https://www.instagram.com/hortiorpoush/)
+> **Contact:** [ilhanshakil.ce@gmail.com](mailto:ilhanshakil.ce@gmail.com) · [LinkedIn](https://linkedin.com/in/shakil-ilhan) · [Facebook](https://facebook.com/shakil.ilhan.566) · [Instagram](https://www.instagram.com/hortiorpoush/)
 
 ---
 

@@ -2585,11 +2585,39 @@
 
     /* Mobile Phones (max-width: 640px) */
     @media (max-width: 640px) {
-      /* Hero Title & Shakil Ilhan Display Size */
+      /* Hero Title & Shakil Ilhan Display Size: Positioned lower down so ENGINEER and S/H never collide */
       .hero-name-title {
-        font-size: 34vw !important;
-        top: 42% !important;
+        font-size: 28vw !important;
+        top: 58% !important;
         letter-spacing: -0.02em !important;
+      }
+
+      /* Clubs Tier Header on Mobile: Column stack with full width and clean text wrap */
+      .tier-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.65rem !important;
+      }
+      .tier-badge-group {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      .tier-badge {
+        white-space: normal !important;
+        font-size: 1.05rem !important;
+      }
+      .tier-badge-sub {
+        white-space: normal !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+        font-size: 0.75rem !important;
+        line-height: 1.4 !important;
+        letter-spacing: 0.05em !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      .tier-line {
+        width: 100% !important;
       }
 
       /* Brand Ambassadorship Cards Intact */
@@ -3665,8 +3693,8 @@
         <div class="club-tier-block reveal-fade-up">
           <div class="tier-header">
             <div class="tier-badge-group">
-              <span class="tier-badge">University Level</span>
-              <span class="tier-badge-sub">Khulna University of Engineering & Technology</span>
+              <span class="tier-badge">University Level &middot; KUET</span>
+              <span class="tier-badge-sub">Khulna University of Engineering &amp; Technology</span>
             </div>
             <span class="tier-line"></span>
           </div>

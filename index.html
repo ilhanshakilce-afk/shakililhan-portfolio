@@ -4856,9 +4856,7 @@
   </div>
 
   <!-- ── 22. Client Runtime & Motion Engine ─────────────────────── -->
-  <script type="module">
-    import Lenis from "lenis";
-
+  <script>
     /* ── A. Adaptive Rem Grid Handler (> 1920px JS scale-up) ─── */
     const FONT_BASE = 16, BASE_W = 1920, COEF = 0.6666;
     function applyAdaptiveGrid() {
@@ -4874,14 +4872,71 @@
     applyAdaptiveGrid();
     window.addEventListener("resize", applyAdaptiveGrid);
 
-    /* ── B. Lenis Smooth Scroll Engine ────────────────────────── */
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      touchMultiplier: 1.5
-    });
+    /* ── B. Resilient Smooth Scroll Engine (Zero-Block Fallback + Optional Lenis Upgrade) ── */
+    const scrollListeners = [];
+    const lenis = {
+      _instance: null,
+      _stopped: false,
+      raf(time) {
+        if (this._instance) this._instance.raf(time);
+      },
+      stop() {
+        this._stopped = true;
+        if (this._instance) this._instance.stop();
+        else document.body.style.overflow = "hidden";
+      },
+      start() {
+        this._stopped = false;
+        document.body.style.overflow = "";
+        if (this._instance) this._instance.start();
+      },
+      scrollTo(target, opts) {
+        if (this._instance) {
+          this._instance.scrollTo(target, opts);
+        } else {
+          const el = typeof target === "string" ? document.querySelector(target) : target;
+          if (el && el.scrollIntoView) {
+            el.scrollIntoView({ behavior: opts && opts.immediate ? "auto" : "smooth" });
+          }
+        }
+      },
+      on(event, cb) {
+        if (event === "scroll") {
+          scrollListeners.push(cb);
+          if (this._instance) this._instance.on("scroll", cb);
+        }
+      }
+    };
     window.lenis = lenis;
+
+    window.addEventListener("scroll", () => {
+      if (!lenis._instance) {
+        const y = window.scrollY || window.pageYOffset || 0;
+        scrollListeners.forEach((cb) => cb({ scroll: y }));
+      }
+    }, { passive: true });
+
+    // Asynchronously upgrade to Lenis if CDN is reachable (never blocks page load)
+    if (window.location.protocol !== "file:") {
+      import("https://cdn.jsdelivr.net/npm/lenis@1.1.18/+esm")
+        .then((mod) => {
+          const LenisClass = mod.default;
+          if (!LenisClass) return;
+          const inst = new LenisClass({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            touchMultiplier: 1.5
+          });
+          lenis._instance = inst;
+          scrollListeners.forEach((cb) => inst.on("scroll", cb));
+          if (lenis._stopped) inst.stop();
+          else inst.start();
+        })
+        .catch(() => {
+          // Graceful fallback to native smooth scrolling if CDN is blocked/offline
+        });
+    }
 
     function raf(time) {
       lenis.raf(time);

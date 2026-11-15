@@ -4,12 +4,32 @@ Thumbs.db
 
 # Temporary / Debug Files
 debug_*.png
+test_banner.*
+banner_*.html
+generate_*.py
+render_*.py
+linkedin_banner_*.png
+og_image.html
 
-# AI Agent Heavy Skill Repositories (Not needed for website hosting)
+# Local Agent & Build Harness (Kept local, excluded from public repo)
 AI_AGENT_SKILLS/
-.claude/imported-skills/
+.claude/
+.cursorrules
+AGENTS.md
+CLAUDE.md
+ai-agent-guide.md
+obsidian/
+simulator.html
+extracted_img_0.png
+Formalpic.JPG
+Formalpic_fixed.png
 
-# Private Personal ID Documents (Protect from public GitHub)
+# Private Personal Documents & Restricted PDFs (Excluded from public hosting)
 my info/**/nid*
 my info/**/*BIRTH*
 my info/**/CERTIFIcate/
+my info/untitled folder/
+my info/havetoprint/
+my info/ALL_CA/untitled folder 2/
+my info/ALL_CA/untitled folder 3/
+New Folder With Items/Plan.pdf

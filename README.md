@@ -7,7 +7,7 @@ updated: 2026-08-18
 
 > 🌐 **Official Live Website:** [https://shakililhan.vercel.app/](https://shakililhan.vercel.app/)  
 > 🏛️ **Affiliation:** Khulna University of Engineering & Technology (KUET)  
-> 🔗 **Connect:** [LinkedIn](https://linkedin.com/in/shakil-ilhan) · [Facebook](https://facebook.com/shakil.ilhan.566) · [Instagram](https://instagram.com/ilhan_shakil/)
+> 🔗 **Connect:** [LinkedIn](https://linkedin.com/in/shakil-ilhan) · [Facebook](https://facebook.com/shakil.ilhan.566) · [Instagram](https://www.instagram.com/hortiorpoush/)
 
 ---
 

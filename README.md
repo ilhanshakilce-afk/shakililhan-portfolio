@@ -3,6 +3,14 @@ tags: [moc, home]
 updated: 2026-08-18
 ---
 
+# Shakil Ilhan — Official Portfolio
+
+> 🌐 **Official Live Website:** [https://shakililhan.vercel.app/](https://shakililhan.vercel.app/)  
+> 🏛️ **Affiliation:** Khulna University of Engineering & Technology (KUET)  
+> 🔗 **Connect:** [LinkedIn](https://linkedin.com/in/shakil-ilhan) · [Facebook](https://facebook.com/shakil.ilhan.566) · [Instagram](https://instagram.com/ilhan_shakil/)
+
+---
+
 # 🧠 AI Design Vault — Project Brain
 
 This vault is the **single source of truth for conventions** — how work is done
